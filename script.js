@@ -80,3 +80,86 @@ if (toTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
+
+// ===========================
+// Contact Form Handling
+// ===========================
+const contactForm = document.getElementById('contactForm');
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/venkateswarlu.cvr@gmail.com';
+let isSubmitting = false;
+
+if (contactForm) {
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message';
+
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (isSubmitting) return;
+        
+        const formData = new FormData(this);
+        const payload = Object.fromEntries(formData.entries());
+        
+        // Basic validation
+        if (!payload.email.includes('@')) {
+            showAlert('Please enter a valid email address', 'error');
+            return;
+        }
+
+        isSubmitting = true;
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+        }
+
+        try {
+            const response = await fetch(FORM_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...payload,
+                    _subject: `New Savier Inquiry: ${payload.subject}`
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed to send');
+
+            showAlert('Success! Your message has been sent.', 'success');
+            this.reset();
+        } catch (error) {
+            showAlert('Error: Message could not be sent. Please try again.', 'error');
+        } finally {
+            isSubmitting = false;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        }
+    });
+}
+
+// ===========================
+// Alert Notification System
+// ===========================
+function showAlert(message, type = 'success') {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type}`;
+    
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    alert.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(alert);
+    
+    setTimeout(() => {
+        alert.style.animation = 'alertSlideOut 0.4s var(--ease-out) forwards';
+        setTimeout(() => alert.remove(), 400);
+    }, 4000);
+}
+
+console.log('✓ Savier Consultancy script loaded successfully');

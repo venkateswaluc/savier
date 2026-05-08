@@ -637,6 +637,99 @@ section {
     transition-delay: 130ms;
 }
 
+/* Contact Form */
+.contact-form-container {
+    background: var(--white);
+    border: 1px solid rgba(13, 47, 111, 0.12);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    box-shadow: var(--shadow-card);
+}
+
+.contact-form {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(13, 47, 111, 0.14);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out), transform 220ms var(--ease-out);
+    background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold-500);
+    box-shadow: 0 0 0 4px var(--ring);
+    background: var(--white);
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.whatsapp-mini-link {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--slate);
+}
+
+.whatsapp-mini-link a {
+    color: #25d366;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.whatsapp-mini-link a:hover {
+    text-decoration: underline;
+}
+
+/* Alert Notification System */
+.alert {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: alertSlideIn 0.4s var(--ease-out) forwards;
+}
+
+.alert-success {
+    background: #10b981;
+    border-left: 5px solid #059669;
+}
+
+.alert-error {
+    background: #ef4444;
+    border-left: 5px solid #dc2626;
+}
+
+@keyframes alertSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes alertSlideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(120%); opacity: 0; }
+}
+
 @keyframes rise {
     from { transform: translateY(0); }
     to { transform: translateY(-6px); }
